@@ -30,22 +30,16 @@ rxconnect/
 │   └── mobile/       # React Native + Expo mobile app
 ├── packages/
 │   └── shared/       # Shared types, constants & utilities
-├── turbo.json        # Turborepo pipeline config
-└── package.json      # Root workspace config
+├── turbo.json
+└── package.json
 ```
 
 ## Getting Started
 
-```bash
-# Install dependencies
-npm install
-
-# Run web app
-npm run dev --workspace=apps/web
-
-# Run mobile app
-npm run start --workspace=apps/mobile
-```
+1. See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) to set up your database
+2. Install dependencies: `npm install`
+3. Web: `npm run dev --workspace=apps/web`
+4. Mobile: `npm run start --workspace=apps/mobile`
 
 ## Subscription Plans
 
@@ -57,7 +51,6 @@ npm run start --workspace=apps/mobile
 
 ## Voice Assistant Support
 
-Users can manage prescriptions hands-free:
 - *"Hey Siri, refill my Lisinopril in RxConnect"*
 - *"Hey Google, when is my next refill due?"*
 - *"Alexa, check my prescription status"*
@@ -65,7 +58,7 @@ Users can manage prescriptions hands-free:
 ## Build Stages
 
 - [x] Stage 1 — Monorepo Setup & GitHub Repo
-- [ ] Stage 2 — Authentication + Freemium Gating
+- [x] Stage 2 — Authentication + Freemium Gating
 - [ ] Stage 3 — User Profile + Delivery Address
 - [ ] Stage 4 — Subscription Billing (Stripe)
 - [ ] Stage 5 — Prescription Management + Savings Tips
