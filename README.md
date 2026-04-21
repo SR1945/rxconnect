@@ -4,7 +4,7 @@
 
 ## What is RxConnect?
 
-RxConnect lets users manage all their prescriptions in one place, automatically refills them with their preferred pharmacy, and has them delivered to their door. Built with accessibility at the core — large text, clear navigation, and simple flows.
+RxConnect lets users manage all their prescriptions in one place, automatically refills them with their preferred pharmacy, and has them delivered to their door. Built with accessibility at the core — large text, clear navigation, voice assistant support, and simple flows.
 
 ## Tech Stack
 
@@ -16,6 +16,7 @@ RxConnect lets users manage all their prescriptions in one place, automatically 
 | Database + Auth | Supabase |
 | Email | Resend |
 | Push Notifications | Expo Push + Web Push API |
+| Voice Assistants | SiriKit / App Intents (iOS) + Google App Actions (Android) |
 | Pharmacy API | NPI Registry + DoseSpot |
 | Background Jobs | Supabase Edge Functions |
 | Billing | Stripe |
@@ -50,11 +51,18 @@ npm run start --workspace=apps/mobile
 
 | Plan | Price | Features |
 |---|---|---|
-| Free | $0 | Up to 3 prescriptions, 1 pharmacy |
+| Free | $0 | Up to 4 prescriptions, 1 pharmacy |
 | Plus | $4.99/mo | Unlimited prescriptions, 10 pharmacies |
 | Family | $9.99/mo | Up to 6 family members, caregiver access |
 
-## Stages
+## Voice Assistant Support
+
+Users can manage prescriptions hands-free:
+- *"Hey Siri, refill my Lisinopril in RxConnect"*
+- *"Hey Google, when is my next refill due?"*
+- *"Alexa, check my prescription status"*
+
+## Build Stages
 
 - [x] Stage 1 — Monorepo Setup & GitHub Repo
 - [ ] Stage 2 — Authentication + Freemium Gating
@@ -65,6 +73,7 @@ npm run start --workspace=apps/mobile
 - [ ] Stage 7 — Pharmacy Partner Portal
 - [ ] Stage 8 — Automated Refill Engine
 - [ ] Stage 9 — Pharmacy Order Integration
-- [ ] Stage 10 — Notifications
-- [ ] Stage 11 — Delivery Tracking
-- [ ] Stage 12 — Accessibility Polish + Final Review
+- [ ] Stage 10 — Notifications (Push + Email)
+- [ ] Stage 11 — Voice Assistant Integration (Siri + Google Assistant + Alexa)
+- [ ] Stage 12 — Delivery Tracking
+- [ ] Stage 13 — Accessibility Polish + Final Review

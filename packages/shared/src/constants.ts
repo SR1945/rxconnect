@@ -41,6 +41,18 @@ export const PRESCRIPTION_STATUS_LABELS: Record<string, string> = {
 // Days before refill due date to trigger auto-order
 export const REFILL_ADVANCE_DAYS = 7
 
-// Free tier limits (enforced in the app layer)
-export const FREE_TIER_MAX_PRESCRIPTIONS = 3
+// Free tier limits (updated: 4 prescriptions, 1 pharmacy)
+export const FREE_TIER_MAX_PRESCRIPTIONS = 4
 export const FREE_TIER_MAX_PHARMACIES = 1
+
+// Voice assistant supported platforms
+export const VOICE_PLATFORMS = ['siri', 'google_assistant', 'alexa'] as const
+
+// Voice assistant intent names (used across iOS Siri + Google App Actions)
+export const VOICE_INTENTS = {
+  REFILL_PRESCRIPTION:    'RefillPrescription',
+  CHECK_REFILL_STATUS:    'CheckRefillStatus',
+  LIST_PRESCRIPTIONS:     'ListPrescriptions',
+  CHECK_NEXT_REFILL_DATE: 'CheckNextRefillDate',
+  TRACK_DELIVERY:         'TrackDelivery',
+} as const

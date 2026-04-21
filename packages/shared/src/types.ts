@@ -10,6 +10,7 @@ export interface User {
   date_of_birth: string
   notification_preference: NotificationPreference
   subscription_plan: SubscriptionPlan
+  voice_assistant_enabled: boolean
   created_at: string
 }
 
@@ -20,7 +21,7 @@ export type NotificationPreference = 'email' | 'push' | 'both'
 export type SubscriptionPlan = 'free' | 'plus' | 'family'
 
 export const PLAN_LIMITS: Record<SubscriptionPlan, { prescriptions: number; pharmacies: number }> = {
-  free:   { prescriptions: 3,   pharmacies: 1  },
+  free:   { prescriptions: 4,   pharmacies: 1  }, // Updated: 4 prescriptions free
   plus:   { prescriptions: 999, pharmacies: 10 },
   family: { prescriptions: 999, pharmacies: 10 },
 }
@@ -55,21 +56,21 @@ export type PrescriptionStatus =
 // --- Pharmacy ---
 export interface Pharmacy {
   id: string
-  npi: string          // National Provider Identifier (unique pharmacy ID)
+  npi: string          // National Provider Identifier
   name: string
   address: string
   city: string
   state: string
   zip: string
   phone: string
-  is_partner: boolean  // Partner pharmacies pay a per-order fee
+  is_partner: boolean
 }
 
 // --- Delivery Address ---
 export interface DeliveryAddress {
   id: string
   user_id: string
-  label: string        // e.g. "Home", "Work", "Mom's house"
+  label: string
   street: string
   city: string
   state: string
@@ -100,23 +101,47 @@ export type OrderStatus =
   | 'delivered'
   | 'failed'
 
-// --- Savings Tips (GoodRx / Cost Plus Drugs) ---
+// --- Savings Tips ---
 export interface SavingsTip {
   prescription_id: string
   provider: 'goodrx' | 'costplus'
-  savings_amount: number      // USD
+  savings_amount: number
   generic_name: string | null
   coupon_url: string
 }
 
-// --- Pharmacy Partner (for partner portal) ---
+// --- Pharmacy Partner ---
 export interface PharmacyPartner {
   id: string
   pharmacy_id: string
   contact_name: string
   contact_email: string
   billing_email: string
-  per_order_fee: number  // USD charged per fulfilled order
+  per_order_fee: number
   total_orders: number
   joined_at: string
+}
+
+// --- Voice Assistant ---
+export type VoicePlatform = 'siri' | 'google_assistant' | 'alexa'
+
+export interface VoiceIntent {
+  intent_name: string         // e.g. 'RefillPrescription'
+  platform: VoicePlatform
+  user_id: string
+  prescription_id?: string    // Set when intent targets a specific med
+  raw_utterance: string       // What the user actually said
+  resolved_at: string
+  success: boolean
+}
+
+// Voice shortcut a user has set up (e.g. 'Hey Siri, refill my blood pressure pill')
+export interface VoiceShortcut {
+  id: string
+  user_id: string
+  prescription_id: string
+  platform: VoicePlatform
+  phrase: string              // Custom phrase the user chose
+  intent_name: string
+  created_at: string
 }
