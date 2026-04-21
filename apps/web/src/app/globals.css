@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================
+   RxConnect Global Styles
+   Accessibility-first design for older adults
+   ================================================ */
+
+@layer base {
+  html {
+    /* 18px base font size for readability */
+    font-size: 18px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply text-gray-900 bg-gray-50;
+    line-height: 1.6;
+  }
+
+  /* Visible focus ring for keyboard navigation */
+  *:focus-visible {
+    @apply outline-none ring-4 ring-primary-500 ring-offset-2;
+  }
+
+  /* All interactive elements meet 44px minimum touch target */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+
+  /* High contrast links */
+  a {
+    @apply text-primary-700 underline;
+  }
+}
