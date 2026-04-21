@@ -3,24 +3,21 @@ import { createClient } from '@/lib/supabase/server'
 
 /**
  * Dashboard Layout — wraps all /dashboard/* pages.
- * Server Component: checks auth on the server before rendering anything.
- * If not logged in, redirects to /login immediately.
+ * createClient() is now async (awaited), so this component is too.
+ * Uses getUser() (server-verified) instead of getSession() for security.
  */
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const supabase = createClient()
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (!session) redirect('/login')
+  if (!user) redirect('/login')
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top navigation bar */}
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between h-16">
           <span className="text-xl font-bold text-primary-700">💊 RxConnect</span>
@@ -34,8 +31,6 @@ export default async function DashboardLayout({
           </form>
         </div>
       </nav>
-
-      {/* Page content */}
       <main className="max-w-4xl mx-auto px-4 py-8">{children}</main>
     </div>
   )

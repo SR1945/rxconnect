@@ -4,20 +4,18 @@ import { createClient } from '@supabase/supabase-js'
 
 /**
  * Supabase client for React Native.
- *
- * Key difference from web: React Native doesn't have cookies.
- * We use AsyncStorage instead — it's like localStorage for mobile apps.
- * Supabase uses it to persist the user's login session between app opens.
+ * Uses AsyncStorage to persist the session between app restarts.
+ * Note: mobile uses EXPO_PUBLIC_ prefix instead of NEXT_PUBLIC_
  */
 export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_URL!,
-  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
   {
     auth: {
-      storage: AsyncStorage,      // Persist session across app restarts
-      autoRefreshToken: true,     // Silently refresh expired tokens
+      storage: AsyncStorage,
+      autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false,  // Not a web browser — no URL to detect
+      detectSessionInUrl: false,
     },
   }
 )

@@ -1,33 +1,30 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 /**
- * Supabase server client — use in Server Components, Route Handlers,
- * and Server Actions. Reads/writes auth cookies via Next.js headers API.
+ * Supabase server client — use in Server Components, Route Handlers, Server Actions.
+ *
+ * Now async because Next.js 15 requires awaiting cookies().
+ * Uses getAll/setAll (Supabase SSR v2 pattern) instead of get/set/remove.
  */
-export function createClient() {
-  const cookieStore = cookies()
+export async function createClient() {
+  const cookieStore = await cookies()
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
+        getAll() {
+          return cookieStore.getAll()
         },
-        set(name: string, value: string, options: CookieOptions) {
+        setAll(cookiesToSet) {
           try {
-            cookieStore.set({ name, value, ...options })
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
           } catch {
-            // Can't set cookies in Server Components — middleware handles it
-          }
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options })
-          } catch {
-            // Can't remove cookies in Server Components
+            // Called from a Server Component — middleware handles session refresh
           }
         },
       },

@@ -1,53 +1,61 @@
 # Supabase Setup Guide
 
-RxConnect uses Supabase for authentication and the database. Follow these steps to get your project running.
+RxConnect uses Supabase for authentication and the database.
 
 ## 1. Create a Supabase Project
 
-1. Go to [supabase.com](https://supabase.com) and sign up (it's free)
-2. Click **New Project**
-3. Give it a name: `rxconnect`
-4. Set a strong database password and save it somewhere safe
-5. Choose a region close to your users (e.g. US East)
+1. Go to [supabase.com](https://supabase.com) and sign up (free)
+2. Click **New Project**, name it `rxconnect`
+3. Set a strong database password — save it somewhere safe
+4. Choose a region close to your users
 
 ## 2. Get Your API Keys
 
-1. In your project dashboard, go to **Settings → API**
+1. In your project dashboard → **Settings → API**
 2. Copy:
-   - **Project URL** (looks like `https://abcdefgh.supabase.co`)
-   - **anon / public key** (the long string starting with `eyJ...`)
+   - **Project URL** (e.g. `https://abcdefgh.supabase.co`)
+   - **Publishable key** (starts with `sb_publishable_...`)
 
 ## 3. Add Keys to Your Apps
 
-**Web app:**
+**Web app — create `apps/web/.env.local`:**
 ```bash
-cd apps/web
-cp .env.example .env.local
-# Edit .env.local and paste your URL and anon key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
 ```
 
-**Mobile app:**
+**Mobile app — create `apps/mobile/.env`:**
 ```bash
-cd apps/mobile
-cp .env.example .env
-# Edit .env and paste your URL and anon key
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
 ```
+
+> ⚠️ Never commit these files to git. `.env.local` and `.env` are in `.gitignore`.
 
 ## 4. Enable Email Auth
 
-1. In Supabase dashboard, go to **Authentication → Providers**
-2. Make sure **Email** is enabled (it is by default)
-3. For development, you can turn off **Confirm email** so you don't need to verify every test account
+1. Dashboard → **Authentication → Providers**
+2. Email is enabled by default ✅
+3. For local testing: turn off **Confirm email** so you don't need to verify every test account
 
-## 5. Run the App
+## 5. Install Dependencies
 
 ```bash
-# Web
-npm run dev --workspace=apps/web
-# Visit http://localhost:3000
+# From the repo root
+npm install
 
-# Mobile (you'll need Expo Go app on your phone)
+# Or install Supabase packages specifically
+npm install @supabase/supabase-js @supabase/ssr --workspace=apps/web
+```
+
+## 6. Run the App
+
+```bash
+# Web (visit http://localhost:3000)
+npm run dev --workspace=apps/web
+
+# Mobile (scan QR with Expo Go on your phone)
 npm run start --workspace=apps/mobile
 ```
 
-That's it! You can now sign up, log in, and see the dashboard. 🎉
+You can now sign up, log in, and see the dashboard! 🎉
